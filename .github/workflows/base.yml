@@ -2,7 +2,7 @@ name: base
 
 on:
   repository_dispatch:
-    types: [CI/CD Pipeline]
+    types: [base]
   pull_request:
     types: [opened, reopened, edited, synchronize]
     branches:
