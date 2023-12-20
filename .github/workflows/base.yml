@@ -3,6 +3,10 @@ name: base
 on:
   repository_dispatch:
     types: [CI/CD Pipeline]
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches:
+      - main
 
 jobs:
 
