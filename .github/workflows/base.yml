@@ -39,7 +39,7 @@ jobs:
           else
             echo "----$parameter1 part of base policy-----"
           fi
-          echo "${steps.check.outputs.IF_BASE}"
+          echo "${{steps.check.outputs.IF_BASE}}"
         
 
       - name: Base Policy Update
