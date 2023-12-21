@@ -36,9 +36,10 @@ jobs:
           IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
           echo "IF_BASE $IF_BASE"
           if [ -z "$IF_BASE" ]; then
-            echo "::set-output name=skip_step::false"
+            # echo "::set-output name=skip_step::false"
+            echo "{skip_step}={false}" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=skip_step::true"
+            echo "{skip_step}={true}" >> $GITHUB_OUTPUT
           fi
 
       - name: Base Policy Update
