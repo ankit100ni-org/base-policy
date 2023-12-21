@@ -77,7 +77,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: steps.check.outputs.IF_BASE != null
+        if: steps.check.outputs.IF_BASE != ''
 
 
 
