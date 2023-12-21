@@ -17,6 +17,8 @@ jobs:
       parameter1: ${{ github.event.client_payload.parameter1 }}
       parameter2: ${{ github.event.client_payload.parameter2 }}
       ORG_DATA: ${{ vars.ORG_DETAILS }}
+      CHEFADMIN: ${{secrets.CHEFADMIN}}
+      TESTUSER: ${{secrets.TESTUSER}}
 
     steps:
 
@@ -26,6 +28,10 @@ jobs:
         run: |
           policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
           echo $policy_file_name
+
+          parameter1="ilm_ca"
+          
+          echo "Parameter1: $parameter1"
           IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
           echo "IF_BASE $IF_BASE"
           if [ -z $IF_BASE ]; then
@@ -39,6 +45,10 @@ jobs:
           echo "$parameter2"
           json_data=$ORG_DATA
           echo $json_data
+
+          mkdir -p "$output_dir"
+          failed_org_log="failed_org_log_${date +%Y%m%d_%H%M%S}.txt"
+
           policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
           # static_org=$(cat $policy_file_name | grep "^default_source :chef_server" | cut -d '/' -f 5)
           static_org="CHEF_ORG"
@@ -51,13 +61,16 @@ jobs:
             awk '/^default_source :chef_server/ {sub("'"${static_org}"'", "'"${org_name}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
             awk '/^include_policy/ {sub(/POLICY_GROUP/, "'"${parameter2}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
             awk '/^include_policy/ {sub("'"${static_org}"'", "'"${org_name}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
-
             echo "=========================="
             cat ${tmp_policy_file}
             echo "=========================="
+
+            sudo chmod 777 .github/workflows/policy_manage.sh
+            sudo ./.github/workflows/policy_manage.sh "$ORG_DATA" "$CHEFADMIN" "$TESTUSER"
+
             echo "let's run chef commands"
-            # Connect to Chef server using knife ssl fetch
             # Terraform creation
+            # Connect to Chef server using knife ssl fetch
             # Node bootstrap 
             # converge
             rm $tmp_policy_file
