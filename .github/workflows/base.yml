@@ -36,7 +36,7 @@ jobs:
             cp $policy_file_name "${org_name}_${policy_file_name}"
             tmp_policy_file="${org_name}_${policy_file_name}"
             echo "Updating the Base Policyfiles org name in Chef server url"
-            awk '/^default_source :chef_server/ {sub(${static_org}, "'"${org_name}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
+            awk '/^default_source :chef_server/ {sub(/"'"${static_org}"'"/, "'"${org_name}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
             awk '/^include_policy/ {sub(/production/, "'"${parameter2}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
             awk '/^include_policy/ {sub(/${static_org}/, "'"${org_name}"'")} 1' "${tmp_policy_file}" > "${tmp_policy_file}.tmp" && mv "${tmp_policy_file}.tmp" "${tmp_policy_file}"
 
