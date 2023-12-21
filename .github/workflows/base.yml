@@ -20,7 +20,7 @@ jobs:
       CHEFADMIN: ${{secrets.CHEFADMIN}}
       TESTUSER: ${{secrets.TESTUSER}}
     outputs:
-      outputs: ${{ steps.check.outputs.skip_step }}
+      skip_step: ${{ steps.check.outputs.skip_step }}
     steps:
       - uses: actions/checkout@v3
 
@@ -36,13 +36,13 @@ jobs:
           IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
           echo "IF_BASE $IF_BASE"
           if [ -z "$IF_BASE" ]; then
-            # echo "::set-output name=skip_step::false"
             echo "{skip_step}={false}" >> $GITHUB_ENV
             echo "{skip_step}={false}" >> $GITHUB_OUTPUT
           else
             echo "{skip_step}={true}" >> $GITHUB_ENV
             echo "{skip_step}={true}" >> $GITHUB_OUTPUT
           fi
+          echo ${{ github.env }}
 
       - name: Base Policy Update
         run: |
@@ -80,7 +80,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: ${{ steps.check.outputs.skip_step }}" == true || ${{ env.skip_step }} == true
+        if: ${{ steps.check.outputs.skip_step }}" == 'false' 
 
 
 
