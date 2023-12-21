@@ -91,7 +91,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: env.skip_step == 'true'
+        if: env.skip_step == 'false'
 
 
 
