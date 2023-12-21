@@ -20,7 +20,7 @@ jobs:
       CHEFADMIN: ${{secrets.CHEFADMIN}}
       TESTUSER: ${{secrets.TESTUSER}}
     outputs:
-      output1: ${{ steps.step1.outputs.IF_BASE }}
+      outputs: ${{ steps.check.outputs }}
     steps:
       - uses: actions/checkout@v3
 
@@ -37,8 +37,10 @@ jobs:
           echo "IF_BASE $IF_BASE"
           if [ -z "$IF_BASE" ]; then
             # echo "::set-output name=skip_step::false"
+            echo "{skip_step}={false}" >> $GITHUB_ENV
             echo "{skip_step}={false}" >> $GITHUB_OUTPUT
           else
+            echo "{skip_step}={true}" >> $GITHUB_ENV
             echo "{skip_step}={true}" >> $GITHUB_OUTPUT
           fi
 
@@ -78,7 +80,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: ${{ steps.check.outputs.skip_step }}" == "false"
+        if: ${{ steps.check.outputs.skip_step }}" == "true" || ${{ env.skip_step }} == "true"
 
 
 
