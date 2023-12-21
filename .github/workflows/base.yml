@@ -22,23 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Check condition
-        id: check
-        run: |
-          a="ball"
-          if [ "$a" == "hello" ]; then
-            echo "skip_step=true" >> $GITHUB_ENV
-          else
-            echo "skip_step=false" >> $GITHUB_ENV
-          fi
-      - name: Step A
-        run: echo "This is Step A"
-        if: env.skip_step == 'true'
-
-      - name: Step B
-        run: echo "This is Step B"
-        if: env.skip_step == 'false'
-
       - name: Check if Cookbook poilicy part of Base policy
         run: |
           policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
@@ -58,7 +41,11 @@ jobs:
       - name: Installing Workstation
         run: |
           wget https://packages.chef.io/files/stable/chef-workstation/23.12.1055/ubuntu/22.04/chef-workstation_23.12.1055-1_amd64.deb; sudo dpkg -i chef-workstation_23.12.1055-1_amd64.deb
-          echo 'yes' | sudo chef env
+          send 'accept' | sudo chef env
+          spawn sudo chef env
+          expect -re ".*"
+          send "accept"
+          expect eof
 
       - name: Base Policy Update
         run: |
