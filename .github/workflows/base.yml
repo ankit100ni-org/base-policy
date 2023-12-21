@@ -30,7 +30,7 @@ jobs:
           echo "IF_BASE $IF_BASE"
           if [ -z $IF_BASE ]; then
             echo "----$parameter1 not part of base policy-----"
-            exit 0
+            exit 1
           fi
 
       - name: Base Policy Update
