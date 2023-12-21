@@ -35,5 +35,5 @@ echo "$json_data" | jq -r 'to_entries[] | "\(.key) \(.value.client_name) \(.valu
 done
 
 # Print the array of failed Organizations
-cat $failed_org_log
+
 
