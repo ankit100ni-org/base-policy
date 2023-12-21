@@ -78,7 +78,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: ${{ steps.check.outputs.skip_step }}" == "true"
+        if: ${{ steps.check.outputs.skip_step }}" == "false"
 
 
 
