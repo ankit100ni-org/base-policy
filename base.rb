@@ -31,6 +31,7 @@ include_policy 'ILM_Users', policy_name: 'ILM_Users', policy_group: 'POLICY_GROU
 include_policy 'ILM_Domain_Join', policy_name: 'ILM_Domain_Join', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'ilm_no_proxy', policy_name: 'ilm_no_proxy', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'ilm_ca_trust', policy_name: 'ilm_ca_trust', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
+include_policy 'ilm_ca', policy_name: 'ilm_ca_trust', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'ilm_restrict_root_access', policy_name: 'ilm_restrict_root_access', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'ilm_cron', policy_name: 'ilm_cron', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'ILM_AccessGrps', policy_name: 'ILM_AccessGrps', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
