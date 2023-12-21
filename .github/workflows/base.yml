@@ -30,8 +30,8 @@ jobs:
           echo "IF_BASE $IF_BASE"
           if [ -z $IF_BASE ]; then
             echo "----$parameter1 not part of base policy-----"
-            exit 1
           fi
+        
 
       - name: Base Policy Update
         run: |
@@ -62,6 +62,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
+        if: steps.check.outputs.IF_BASE != null
 
 
 
