@@ -8,7 +8,7 @@ output_dir="$HOME/.chef"
 
 # Create output directory if it doesn't exist
 mkdir -p "$output_dir"
-failed_org_log="failed_org_log_${date +%Y%m%d_%H%M%S}.txt"
+failed_org_log="failed_org_log_$(date +%Y%m%d_%H%M%S).txt"
 
 # Creating the pem file
 echo "$CHEFADMIN" > $HOME/.chef/chefadmin.pem
