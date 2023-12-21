@@ -39,6 +39,7 @@ jobs:
             echo "----$parameter1 part of base policy-----"
           fi
           echo "IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`" >> "$GITHUB_OUTPUT"
+          exit 78
           echo "Output1 $OUTPUT1"
 
       # - uses: actions/checkout@v3
