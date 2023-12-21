@@ -20,7 +20,7 @@ jobs:
       CHEFADMIN: ${{secrets.CHEFADMIN}}
       TESTUSER: ${{secrets.TESTUSER}}
     outputs:
-      outputs: ${{ steps.check.outputs }}
+      outputs: ${{ steps.check.outputs.skip_step }}
     steps:
       - uses: actions/checkout@v3
 
