@@ -55,6 +55,11 @@ jobs:
             echo "skip_step=false" >> $GITHUB_ENV
           fi
 
+      - name: Installing Workstation
+        run: |
+          wget https://packages.chef.io/files/stable/chef-workstation/23.12.1055/ubuntu/22.04/chef-workstation_23.12.1055-1_amd64.deb; sudo dpkg -i chef-workstation_23.12.1055-1_amd64.deb
+          echo 'yes' | sudo chef env
+
       - name: Base Policy Update
         run: |
           echo "$parameter1"
@@ -77,10 +82,8 @@ jobs:
             echo "=========================="
             cat ${tmp_policy_file}
             echo "=========================="
-
             sudo chmod 777 .github/workflows/policy_manage.sh
             sudo ./.github/workflows/policy_manage.sh "$ORG_DATA" "$CHEFADMIN" "$TESTUSER"
-
             echo "let's run chef commands"
             # Terraform creation
             # Connect to Chef server using knife ssl fetch
