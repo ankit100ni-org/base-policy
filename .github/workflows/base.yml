@@ -30,7 +30,9 @@ jobs:
           echo $json_data
           policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
           static_org=$(cat $policy_file_name | grep "^default_source :chef_server" | cut -d '/' -f 5)
+          echo "Static org: $static_org"
           echo "$json_data" | jq -r 'to_entries[] | "\(.key) \(.value.client_name) \(.value.client_key_name) \(.value.org_name)"' | while read -r org client_name client_key_name org_name; do
+            echo "Org: $org_name"
             cp $policy_file_name "${org_name}_${policy_file_name}"
             tmp_policy_file="${org_name}_${policy_file_name}"
             echo "Updating the Base Policyfiles org name in Chef server url"
