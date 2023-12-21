@@ -23,7 +23,9 @@ jobs:
       output1: ${{ steps.step1.outputs.IF_BASE }}
     steps:
       - uses: actions/checkout@v3
-      - id: step1
+
+      - name: Check if Cookbook poilicy part of Base policy
+        id: check
         run: |
           policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
           echo $policy_file_name
@@ -34,33 +36,10 @@ jobs:
           IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
           echo "IF_BASE $IF_BASE"
           if [ -z "$IF_BASE" ]; then
-            echo "----$parameter1 not part of base policy-----"
+            echo "::set-output name=skip_step::false"
           else
-            echo "----$parameter1 part of base policy-----"
+            echo "::set-output name=skip_step::true"
           fi
-          echo "IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`" >> "$GITHUB_OUTPUT"
-          exit 78
-          echo "Output1 $OUTPUT1"
-
-      # - uses: actions/checkout@v3
-
-      # - name: Check if Cookbook poilicy part of Base policy
-      #   run: |
-      #     policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
-      #     echo $policy_file_name
-
-      #     parameter1="ilm_ca"
-
-      #     echo "Parameter1: $parameter1"
-      #     IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
-      #     echo "IF_BASE $IF_BASE"
-      #     if [ -z "$IF_BASE" ]; then
-      #       echo "----$parameter1 not part of base policy-----"
-      #     else
-      #       echo "----$parameter1 part of base policy-----"
-      #     fi
-      #     echo "${{steps.check.outputs.IF_BASE}}"
-        
 
       - name: Base Policy Update
         run: |
@@ -98,7 +77,7 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: steps.check.outputs.IF_BASE
+        if: ${{ steps.check.outputs.skip_step }}" == "true"
 
 
 
