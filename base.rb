@@ -39,6 +39,7 @@ include_policy 'ILM_Splunk', policy_name: 'ILM_Splunk', policy_group: 'POLICY_GR
 include_policy 'ILM_Flexera', policy_name: 'ILM_Flexera', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'chef-client-service', policy_name: 'chef-client-service', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 include_policy 'compliance_wrapper', policy_name: 'compliance_wrapper', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
+include_policy 'pipe', policy_name: 'pipe', policy_group: 'POLICY_GROUP', server: 'https://chef-osc.global.tesco.org/organizations/CHEF_ORG/'
 
 
 # include_policy 'ILM_SatRegister', policy_name: 'ILM_SatRegister', policy_group: POLICY_GROUP, server: CHEF_SERVER
